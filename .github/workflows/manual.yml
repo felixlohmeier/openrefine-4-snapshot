@@ -18,9 +18,11 @@ jobs:
         cd OpenRefine
         git checkout 4.0
     - name: build linux package
-      run: mvn -DskipTests package -P linux
+      run: |
+        cd OpenRefine
+        mvn -DskipTests package -P linux
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
         name: linux package
-        path: packaging/target/*.tar.gz
+        path: OpenRefine/packaging/target/*.tar.gz
