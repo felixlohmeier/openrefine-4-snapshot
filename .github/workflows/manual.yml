@@ -1,0 +1,26 @@
+name: Manual workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2.3.4
+
+    - name: install environment
+      run: apt -y install openjdk-8-jdk maven
+    - name: clone OpenRefine repo and checkout 4.0 branch
+      run: |
+        git clone https://github.com/OpenRefine/OpenRefine.git
+        cd OpenRefine
+        git checkout 4.0
+    - name: build linux package
+      run: mvn -DskipTests package -P linux
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: linux package
+        path: packaging/target/*.tar.gz
